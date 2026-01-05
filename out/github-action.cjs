@@ -77580,9 +77580,11 @@ var AnthropicEngine = class {
         system: systemMessage,
         messages: restMessages,
         temperature: 0,
-        top_p: 0.1,
         max_tokens: this.config.maxTokensOutput
       };
+      if (!/claude.*-4-5/.test(params.model)) {
+        params.top_p = 0.1;
+      }
       try {
         const REQUEST_TOKENS = messages.map((msg) => tokenCount(msg.content) + 4).reduce((a3, b3) => a3 + b3, 0);
         if (REQUEST_TOKENS > this.config.maxTokensInput - this.config.maxTokensOutput) {
